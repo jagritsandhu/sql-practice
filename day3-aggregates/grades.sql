@@ -101,3 +101,26 @@ SELECT
 FROM grades AS g
 JOIN students AS s ON g.student_id = s.student_id;
 
+-- “Who scored between 60 and 80?”
+SELECT s.name,
+        g.score
+FROM grades AS g
+JOIN students AS s ON g.student_id = s.student_id
+WHERE g.score BETWEEN 60 AND 80;
+
+
+-- ===========================================
+-- Views & Indexing (Day 5)
+-- ===========================================
+-- Create a view to show student name, subject, and score
+CREATE VIEW student_scores_view AS
+SELECT 
+  s.name AS student_name,
+  sub.name AS subject_name,
+  g.score
+FROM grades AS g
+JOIN students AS s ON g.student_id = s.student_id
+JOIN subjects AS sub ON g.subject_id = sub.subject_id;
+
+-- Add index to speed up lookups by student_id
+CREATE INDEX idx_student_id ON grades(student_id);
