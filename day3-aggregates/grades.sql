@@ -52,6 +52,52 @@ FROM subjects
 LEFT JOIN grades AS gr
 USING (subject_id)
 GROUP BY subjects.subject_id,
-        subjects.name
+        subjects.name;
 
 -- “Which student has the highest total score across all subjects?”
+SELECT st.name,
+        SUM(gr.score) AS total_score
+FROM students AS st
+LEFT JOIN grades AS gr
+USING(student_id)
+GROUP BY st.name
+ORDER BY total_score DESC
+LIMIT 1;
+
+-- “Which students scored above the class average overall?”
+SELECT st.name,
+        SUM(gr.score) AS total_score
+FROM students AS st
+LEFT JOIN grades AS gr
+USING (student_id)
+GROUP BY st.name
+HAVING total_score  > (SELECT AVG(gr.score) FROM grades AS gr )
+
+-- "Which subjects are underperforming — with an average score less than 75?"
+SELECT sub.subject_id,
+        sub.name,
+        AVG(gr.score) AS avg_score
+FROM subjects AS sub
+LEFT JOIN grades AS gr
+USING(subject_id)
+GROUP BY sub.subject_id,
+        sub.name
+HAVING avg_score < 75;
+
+-- ===========================================
+-- CASE & Filtering (Day 4)
+-- ===========================================
+SELECT 
+  s.name,
+  g.subject_id,
+  g.score,
+  CASE 
+    WHEN g.score >= 90 THEN 'A'
+    WHEN g.score >= 80 THEN 'B'
+    WHEN g.score >= 70 THEN 'C'
+    WHEN g.score >= 60 THEN 'D'
+    ELSE 'F'
+  END AS letter_grade
+FROM grades AS g
+JOIN students AS s ON g.student_id = s.student_id;
+
