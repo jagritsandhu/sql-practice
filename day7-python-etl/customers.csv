@@ -1,0 +1,6 @@
+Name,Email,Signup Date,Plan
+Alice,alice@example.com,2023-06-01,Premium
+Bob,bob@example.com,2023-07-15,Basic
+Charlie,charlie@example.com,2023-05-10,Premium
+Dana,dana@example.com,2023-04-25,Free
+Eve,eve@example.com,,Basic
